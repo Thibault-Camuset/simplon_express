@@ -1,7 +1,13 @@
 // Constantes des Librairies
 const express = require('express');
 const exphbs = require('express-handlebars');
-const mysql = require('mysql');
+
+
+const DBManager = require('./DBManager.js');
+
+const dbManager = new DBManager();
+
+
 
 
 // Engine de Express (extansion prise en compte)
@@ -10,20 +16,6 @@ app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({ extname: '.hbs' })); 
 
 
-// Paramètres de connexion à la base de donnée
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "classicmodels"
-});
-
-
-// Connexion à la base de donnée
-db.connect(function (err) {
-    if(err) throw err;
-    console.log("Connexion à la DBB réussie");
-});
 
 
 // Requête sur la base de donnée
@@ -39,7 +31,7 @@ app.get('/', (req, resp) => {
     }
 
     // Envoi de la requête, récupération de la réponde, et envoi de celle ci sur home.hbs
-    db.query(query, function(err, results) {
+    dbManager.db.query(query, function(err, results) {
         if(err) throw err;
         // On envoie le résultat de la requête, et le contenu de la barre de recherche vers home.hbs
         resp.render('home', {

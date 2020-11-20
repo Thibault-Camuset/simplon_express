@@ -1,0 +1,26 @@
+{{!-- Formulaire qui récupère le contenu de la barre de recherche, et sera récupéré par la requête SQL --}}
+<form method="GET" action="">
+    <input type="text" id="search" name="search" value="{{search}}" />
+    <input type="submit" id="input-valider" value="Chercher" />
+</form>
+
+{{!-- Table qui affichera les résultats de la requête --}}
+<table>
+    <thead>
+        <tr>
+            <td>Code</td>
+            <td>Nom</td>
+            <td>Prix</td>
+        </tr>
+    </thead>
+    <tbody>
+        {{!-- Intégration des résultats et boucle pour la requête --}}
+        {{#each products}}
+        <tr>
+            <td>{{this.productCode}}</td>
+            <td>{{this.productName}}</td>
+            <td>{{this.buyPrice}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

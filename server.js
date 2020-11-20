@@ -31,7 +31,7 @@ app.get('/', (req, resp) => {
     }
 
     // Envoi de la requête, récupération de la réponde, et envoi de celle ci sur home.hbs
-    dbManager.db.query(query, function(err, results) {
+    dbManager.dbGet.query(query, function(err, results) {
         if(err) throw err;
         // On envoie le résultat de la requête, et le contenu de la barre de recherche vers home.hbs
         resp.render('home', {

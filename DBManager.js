@@ -20,6 +20,12 @@ class DBManager {
             console.log("Connexion à la DBB réussie");
         });
     }
+    
+    get dbGet() {
+        return this.db;
+    }
+
+
 
 }
 

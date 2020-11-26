@@ -15,7 +15,8 @@ const app = express();
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs({ extname: '.hbs' })); 
 
-
+// On expose le dossier public et ses ressources
+app.use(express.static('public'));
 
 
 // Requête sur la base de donnée

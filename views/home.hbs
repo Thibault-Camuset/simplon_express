@@ -1,8 +1,8 @@
 {{!-- Formulaire qui récupère le contenu de la barre de recherche, et sera récupéré par la requête SQL --}}
-<form method="GET" action="">
-    <input type="text" id="search" name="search" value="{{search}}" />
-    <input type="submit" id="input-valider" value="Chercher" />
-</form>
+
+<input type="text" id="input-search" name="search" value="{{search}}" />
+<input type="submit" id="button-search" value="Chercher" />
+
 
 {{!-- Table qui affichera les résultats de la requête --}}
 <table>
@@ -13,7 +13,7 @@
             <td>Prix</td>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="table-body">
         {{!-- Intégration des résultats et boucle pour la requête --}}
         {{#each products}}
         <tr>
@@ -24,3 +24,17 @@
         {{/each}}
     </tbody>
 </table>
+
+
+
+<script id="template-products" type="text/x-handlebars-template">
+
+    \{{#each products}}
+    <tr>
+        <td>\{{ this.productCode }}</td>
+        <td>\{{ this.productName }}</td>
+        <td>\{{ this.buyPrice }}</td>
+    </tr>
+    \{{/each}}
+
+</script>

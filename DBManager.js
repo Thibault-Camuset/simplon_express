@@ -24,9 +24,6 @@ class DBManager {
     get dbGet() {
         return this.db;
     }
-
-
-
 }
 
 module.exports = DBManager;

@@ -2,11 +2,11 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 
-
 const DBManager = require('./DBManager.js');
+const ProductRepository = require('./product-repository.js');
 
 const dbManager = new DBManager();
-
+const productRepository = new ProductRepository(dbManager);
 
 
 
@@ -21,19 +21,9 @@ app.use(express.static('public'));
 
 // Requête sur la base de donnée
 app.get('/', (req, resp) => {
-    // Préparation de la recherche, et de la requête
-    resp.set('Content-Type', 'text/html');
-
-    let query = "SELECT * FROM products";
-
-
-
-    // Envoi de la requête, récupération de la réponde, et envoi de celle ci sur home.hbs
-    dbManager.dbGet.query(query, function(err, results) {
-        if(err) throw err;
-        // On envoie le résultat de la requête, et le contenu de la barre de recherche vers home.hbs
+    productRepository.findAll().then((products) => {
         resp.render('home', {
-            products: results
+            products
         });
     });
 });
@@ -41,22 +31,17 @@ app.get('/', (req, resp) => {
 
 app.get('/search', (req, resp) => {
     const search = req.query.search;
-    let query = "SELECT * FROM products";
 
-    if(search) {
-        query += ' WHERE productName LIKE "%' +search+ '%"';
-    }
-
-    dbManager.dbGet.query(query, function(err, results) {
-        if(err) throw err;
-        // On envoie le résultat de la requête, et le contenu de la barre de recherche vers home.hbs
+    productRepository.searchByName(search).then((results) => {
         resp.send(results);
     });
 });
 
 
+
+
 // Définition du port et écoute du serveur
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8800;
 app.listen(port, () => {
     console.log('Server app listening on port ' + port);
 });

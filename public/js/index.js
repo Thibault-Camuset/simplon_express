@@ -1,6 +1,8 @@
 
 // On déclare la variable pour l'input search
- $inputSearch = $('#input-search');
+$inputSearch = $('#input-search');
+
+let templateProductRows;
 
 // Ecouteurs sur la barre de recherche (bouton + champ)
 $(document).on('click', '#button-search', () => {
@@ -18,17 +20,20 @@ function searchData() {
 
     if(search) {
         $.get('/search?search=' + search, (products) => {
-
-            const html = $('#template-products').html();
-
-            const template = Handlebars.compile(html);
-
-            // On éxécute le template compilé et on écrit le résultat sur la page
-            const renderHtml = template({products:products});
-
-            $('#table-body').html(renderHtml);
-
-            //$tableBody.html(template({products}));
-        })
+            $('#table-body').html(templateProductRows({products}));
+        });
+    } else {
+        document.location = '';
     }
 }
+
+
+
+
+function loadProductTemplate() {
+    $.get('./templates/table-products.html', (html) => {
+        templateProductRows = Handlebars.compile(html);
+    });
+}
+
+loadProductTemplate();
